@@ -59,3 +59,63 @@ field.widget.settings.address_default:
     default_country:
       type: string
       label: 'Default country'
+
+address.zone.*:
+  type: config_entity
+  label: 'Zone'
+  mapping:
+    id:
+      type: string
+      label: 'Zone id'
+    name:
+      type: string
+      label: 'Zone name'
+    scope:
+      type: string
+      label: 'Zone scope'
+    priority:
+      type: integer
+      label: 'Zone priority'
+    members:
+      type: sequence
+      label: 'Zone members'
+      sequence:
+        type: address.zone_member.[%key]
+
+address.zone_member.*:
+  type: mapping
+  label: 'Zone member settings'
+  mapping:
+    type:
+      type: string
+      label: 'Zone member type'
+
+address.zone_member.country:
+  type: mapping
+  label: 'Zone member (country-based)'
+  mapping:
+    countryCode:
+      type: string
+      label: 'Country code'
+    administrativeArea:
+      type: string
+      label: 'Administrative area'
+    locality:
+      type: string
+      label: 'Locality'
+    dependentLocality:
+      type: string
+      label: 'Code'
+    name:
+      type: label
+      label: 'Name'
+      translatable: true
+
+address.zone_member.zone:
+  type: mapping
+  label: 'Zone member (zone-based)'
+  mapping:
+    zone_id:
+      type: string
+      label: 'Zone ID'
+

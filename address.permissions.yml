@@ -3,3 +3,8 @@
   description: 'Allows users to create, update, and delete address format entities.'
   'restrict access': TRUE
 
+'administer zones':
+  title: 'Administer addressing zones'
+  description: 'Allows users to create zones, or definitions for a territorial grouping of addresses.'
+  'restrict access': TRUE
+

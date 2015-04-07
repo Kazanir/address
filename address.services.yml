@@ -11,6 +11,11 @@ services:
     class: Drupal\address\CountryRepository
     arguments: ['@cache.data', '@language_manager']
 
-  address.subdivision_repository:
-    class: Drupal\address\SubdivisionRepository
-    arguments: ['@cache.data', '@language_manager']
+  plugin.manager.address.zone_member:
+    class: Drupal\address\ZoneMemberManager
+    parent: default_plugin_manager
+
+  address.postal_formatter:
+    class: CommerceGuys\Addressing\Formatter\PostalFormatter
+    arguments: ['@address.data_provider']
+
