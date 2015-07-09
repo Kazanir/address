@@ -34,8 +34,11 @@ class ZoneForm extends EntityForm {
   /**
    * Creates a ZoneForm instance.
    *
-   * @param \Drupal\Core\Entity\EntityStorageInterface $zone_storage
-   *   The zone storage.
+   * @param \Drupal\Core\Entity\EntityManager $entity_manager
+   *   The entity manager to fetch storage from.
+   *
+   * @param \Drupal\address\ZoneMemberManager $zone_memberManager
+   *   Our plugin manager for zone members.
    */
   public function __construct(EntityManager $entity_manager, ZoneMemberManager $zone_member_manager) {
     $this->zoneStorage = $entity_manager->getStorage('zone');
@@ -49,7 +52,7 @@ class ZoneForm extends EntityForm {
     /** @var \Drupal\Core\Entity\EntityManagerInterface $entity_manager */
     $entity_manager = $container->get('entity.manager');
     $plugin_manager = $container->get('plugin.manager.address.zonemember');
-    return new static($entity_manager->getStorage('zone'), $plugin_manager);
+    return new static($entity_manager, $plugin_manager);
   }
 
   /**
@@ -270,7 +273,7 @@ class ZoneForm extends EntityForm {
       'data' => [],
       'weight' => $form_state->getValue('weight'),
     ];
-    $effect_id = $this->entity->addZoneMember($member);
+    $effect_id = $this->entity->addMember($member);
     $this->entity->save();
     $form_state->setRedirect(
       'address.zone_member_form',

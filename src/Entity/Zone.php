@@ -208,12 +208,14 @@ class Zone extends ConfigEntityBase implements ZoneInterface {
    * {@inheritdoc}
    */
   public function addMember(ZoneMemberInterface $member) {
+    var_dump($member);
+    var_dump($member instanceof ZoneMemberInterface);
+
     if (!$this->hasMember($member)) {
-      $member->setParentZone($this);
       $this->membersCollection->addInstanceId($member->getId(), $member);
     }
 
-    return $this;
+    return $member->getId();
   }
 
   /**
@@ -221,7 +223,6 @@ class Zone extends ConfigEntityBase implements ZoneInterface {
    */
   public function removeMember(ZoneMemberInterface $member) {
     if ($this->hasMember($member)) {
-      $member->setParentZone(null);
       $this->membersCollection->remove($member);
     }
 
