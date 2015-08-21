@@ -208,12 +208,8 @@ class Zone extends ConfigEntityBase implements ZoneInterface {
    * {@inheritdoc}
    */
   public function addMember(ZoneMemberInterface $member) {
-    var_dump($member);
-    var_dump($member instanceof ZoneMemberInterface);
-
-    if (!$this->hasMember($member)) {
-      $this->membersCollection->addInstanceId($member->getId(), $member);
-    }
+    $member->setId($this->uuidGenerator()->generate());
+    $this->membersCollection->set($member->getId(), $member);
 
     return $member->getId();
   }

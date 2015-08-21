@@ -163,7 +163,7 @@ class ZoneForm extends EntityForm {
     $new_member_options = [];
     $plugins = $this->zoneMemberManager->getDefinitions();
     uasort($plugins, function($a, $b) {
-      return strcasecmp($a['type'], $b['type']);
+      return strcasecmp(@$a['type'], @$b['type']);
     });
     foreach ($plugins as $plugin => $definition) {
       $new_member_options[$plugin] = $definition['label'];
@@ -261,27 +261,21 @@ class ZoneForm extends EntityForm {
   }
 
   /**
-   * Submit handler for image effect.
+   * Submit handler for adding a zone member.
    */
   public function memberSave($form, FormStateInterface $form_state) {
     $this->save($form, $form_state);
     // Check if this field has any configuration options.
-    $member = $this->zoneMemberManager->getDefinition($form_state->getValue('new'));
+    $member = $this->zoneMemberManager->createInstance($form_state->getValue('new'));
     // Load the configuration form for this option.
-    $member = [
-      'id' => $member['id'],
-      'data' => [],
-      'weight' => $form_state->getValue('weight'),
-    ];
-    $effect_id = $this->entity->addMember($member);
+    $member_id = $this->entity->addMember($member);
     $this->entity->save();
     $form_state->setRedirect(
-      'address.zone_member_form',
+      'address.zone_member.edit_form',
       [
         'zone' => $this->entity->id(),
-        'member_id' => $form_state->getValue('new'),
-      ],
-      ['query' => ['weight' => $form_state->getValue('weight')]]
+        'zone_member' => $member_id,
+      ]
     );
   }
 }

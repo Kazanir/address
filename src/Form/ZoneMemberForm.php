@@ -12,6 +12,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\FormBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use CommerceGuys\Zone\Model\ZoneInterface;
 use Drupal\address\Entity\Zone;
 use Drupal\address\ZoneMemberManager;
 
@@ -30,15 +31,15 @@ class ZoneMemberForm extends FormBase {
    *
    * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
    */
-  public function buildForm(array $form, FormStateInterface $form_state, Zone $zone = NULL, $member_id = NULL) {
+  public function buildForm(array $form, FormStateInterface $formState, ZoneInterface $zone = NULL, $member_id = NULL) {
     $this->zone = $zone;
-    $this->zoneMember = $this->zone->getMember($member_id);
+    $this->zoneMember = $this->zone->getMember($memberUuid);
 
     $request = $this->getRequest();
 
     $form['id'] = [
       '#type' => 'value',
-      '#value' => $member_id,
+      '#value' => $memberUuid,
     ];
 
     $form['plugin_id'] = [
@@ -46,7 +47,7 @@ class ZoneMemberForm extends FormBase {
       '#value' => $this->zoneMember->getPluginId(),
     ];
 
-    $form['data'] = $this->zoneMember->buildConfigurationForm([], $form_state);
+    $form['data'] = $this->zoneMember->buildConfigurationForm([], $formState);
     $form['data']['#tree'] = TRUE;
 
     // Check the URL for a weight, then the zone member, otherwise use default.
@@ -99,8 +100,10 @@ class ZoneMemberForm extends FormBase {
     // Update the original form values.
     $form_state->setValue('data', $effect_data->getValues());
     $this->zoneMember->setWeight($form_state->getValue('weight'));
-    if (!$this->zoneMember->getId()) {
-      $this->zone->addZoneMember($this->zoneMember->getConfiguration());
+    // If this is an add form, then the plugin will be fresh and uuid-less.
+    // Add it to the zone's plugin collection.
+    if (!$this->zoneMember->getUuid()) {
+      $this->zone->addMember($this->zoneMember);
     }
     $this->zone->save();
     drupal_set_message($this->t('The zone member was successfully included in the zone.'));

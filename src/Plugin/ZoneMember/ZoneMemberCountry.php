@@ -2,9 +2,9 @@
 
 namespace Drupal\address\Plugin\ZoneMember;
 
-use CommerceGuys\Zone\Model as Lib;
 use CommerceGuys\Addressing\Model\AddressInterface;
 use CommerceGuys\Addressing\Model\SubdivisionInterface;
+use Drupal\address\ZoneMemberBase;
 use Drupal\address\ZoneMemberInterface;
 
 /**
@@ -17,9 +17,19 @@ use Drupal\address\ZoneMemberInterface;
  *   postal codes.")
  * )
  */
-class ZoneMemberCountry extends Lib\ZoneMember implements ZoneMemberInterface {
+class ZoneMemberCountry extends ZoneMemberBase implements ZoneMemberInterface {
 
   public function buildConfigForm(array $form, FormStateInterface $form_state) {
+
+  }
+
+  public function defaultConfiguration() {
+    return [
+      'address' => [], // @todo: Whatever ends up here.
+    ];
+  }
+
+  public function match(AddressInterface $address) {
 
   }
 

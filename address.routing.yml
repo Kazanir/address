@@ -35,8 +35,6 @@ entity.zone.collection:
   defaults:
     _entity_list: 'zone'
     _title: 'Zones'
-  options:
-    _admin_route: TRUE
   requirements:
     _permission: 'administer zones'
 
@@ -45,8 +43,6 @@ entity.zone.add_form:
   defaults:
     _entity_form: 'zone.add'
     _title: 'Add a new zone'
-  options:
-    _admin_route: TRUE
   requirements:
     _permission: 'administer zones'
 
@@ -55,8 +51,6 @@ entity.zone.edit_form:
   defaults:
     _entity_form: 'zone.edit'
     _title: 'Edit a zone'
-  options:
-    _admin_route: TRUE
   requirements:
     _permission: 'administer zones'
 
@@ -65,8 +59,6 @@ entity.zone.delete_form:
   defaults:
     _entity_form: 'zone.delete'
     _title: 'Delete a zone'
-  options:
-    _admin_route: TRUE
   requirements:
     _permission: 'administer zones'
 
@@ -75,8 +67,6 @@ address.zone_member.edit_form:
   defaults:
     _form: '\Drupal\address\Form\ZoneMemberForm'
     _title: 'Edit zone member'
-  options:
-    _admin_route: TRUE
   requirements:
     _permission: 'administer zones'
 
@@ -85,8 +75,6 @@ address.zone_member.delete_form:
   defaults:
     _form: '\Drupal\address\Form\ZoneMemberDeleteForm'
     _title: 'Delete zone member'
-  options:
-    _admin_route: TRUE
   requirements:
     _permission: 'administer zones'
 
